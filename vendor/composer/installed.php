@@ -1,22 +1,22 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => '866a82d84a301460da133733e8b7ab163e9c3d82',
         'name' => 'gustadevrj/projeto_passo_a_passo_001',
         'dev' => true,
     ),
     'versions' => array(
         'gustadevrj/projeto_passo_a_passo_001' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => '866a82d84a301460da133733e8b7ab163e9c3d82',
             'dev_requirement' => false,
         ),
         'phpmailer/phpmailer' => array(

@@ -1,0 +1,21 @@
+
+<br>
+<b>TEMPLATE HTML</b>
+<br><br>
+
+	{loop="$conteudo"}
+
+		{if="$value == 'Gustavo'"}
+			<b>Nome:</b> {function="formata_nome($value)"} - (PAI)<br>
+		{else}
+			<b>Nome:</b> {function="formata_nome($value)"}<br>
+		{/if}
+
+	{/loop}
+
+{if="$texto != ''"}
+	<br>
+	<b>TEXTO RECEBIDO:</b> {$texto}
+{/if}
+
+

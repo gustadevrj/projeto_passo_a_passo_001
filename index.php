@@ -4,7 +4,7 @@ session_start();
 
 echo("<br><b><a href='http://www.projeto_teste_001.com.br'>www.projeto_teste_001.com.br</a></b><br>");
 
-echo("<br><b><a href='http://localhost/phpmyadmin/index.php'>PHP MyAdmin</a></b><br>");
+echo("<br><b><a href='http://localhost/phpmyadmin/index.php' target='_blank'>PHP MyAdmin</a></b><br>");
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //DOCUMENT_ROOT

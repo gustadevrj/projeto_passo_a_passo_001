@@ -1,9 +1,22 @@
 
-/* TABELA CATEGORIAS - tb_categorias*/
+
+
+--DROP TABLE tb_categorias;
+
+
+/* DATABASE projeto_teste_001 */
+--DROP DATABASE projeto_teste_001;
+
+
+CREATE DATABASE projeto_teste_001;
+
+
+/* TABELA CATEGORIAS - tb_categorias */
 CREATE TABLE tb_categorias(
-	id_categoria int not null PRIMARY KEY AUTO_INCREMENT,
-	categoria varchar(250) not null
+	id_categoria INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	categoria VARCHAR(250) NOT NULL
 );
+
 
 INSERT INTO tb_categorias (categoria) VALUES ("Padaria");
 INSERT INTO tb_categorias (categoria) VALUES ("Carnes");

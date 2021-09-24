@@ -1,5 +1,4 @@
 <?php if(!class_exists('Rain\Tpl')){exit;}?>
-<br>
 <b>TEMPLATE HTML</b>
 <br><br>
 

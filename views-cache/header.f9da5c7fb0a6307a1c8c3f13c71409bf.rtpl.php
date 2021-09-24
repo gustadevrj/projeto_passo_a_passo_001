@@ -25,16 +25,13 @@
 		<a href="/rota_formulario_get">Formulario - GET</a>
 	</li>
 	<li>
-		*****<a href="/rota_classe_categoria_listagem">Classe Categoria - CRUD</a>
+		<a href="/rota_classe_categoria_listagem">Classe Categoria - CRUD</a>
 	</li>
 	<li>
-		*****<a href="/rota_crud_classe_produto">Classe Produto - CRUD</a>
-	</li>
-	<li>
-		*****<a href="/teste">ROTA TESTE</a>
+		(FAZER)*****<a href="/rota_classe_produto_listagem">Classe Produto - CRUD</a>
 	</li>
 </ul>
 
-<br><b>HEADER</b><br>
+<b>HEADER</b><br>
 <hr>
 

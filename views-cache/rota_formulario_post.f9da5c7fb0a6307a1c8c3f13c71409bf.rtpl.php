@@ -1,5 +1,5 @@
 <?php if(!class_exists('Rain\Tpl')){exit;}?>
-<br><b>Formulario - POST</b><br><br>
+<b>Formulario - POST</b><br><br>
 
 <?php if( $msg != '' ){ ?>
 	<div>

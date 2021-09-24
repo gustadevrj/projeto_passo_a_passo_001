@@ -1,0 +1,25 @@
+
+
+<b>ROTA CLASSE CATEGORIA - CRUD - ALTERAR</b><br><br>
+
+<br>
+
+{if="$msg != ''"}
+
+	<font color="RED"><b>{$msg}</b></font>
+	<br><br>
+{/if}
+
+<div>
+
+<form action="/rota_classe_categoria_alterar/{$id_categoria}" method="post">
+
+	<label for="txt_categoria">Categoria:</label>
+	<input type="text" id="txt_categoria" name="txt_categoria" value="{$categoria}">
+
+	<input type="submit" value="Alterar">
+
+</form>
+
+</div>
+

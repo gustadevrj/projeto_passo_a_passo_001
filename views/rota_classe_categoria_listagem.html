@@ -1,19 +1,43 @@
 
 
-<br><b>ROTA CLASSE CATEGORIA - CRUD - LISTAGEM</b><br><br>
+<b>ROTA CLASSE CATEGORIA - CRUD - LISTAGEM</b><br><br>
 
-<table border="3" width="350">
+<div>
+<a href="/rota_classe_categoria_inserir"><b>INCLUIR NOVA CATEGORIA</b></a>
+</div>
+
+<br>
+
+{if="$msg != ''"}
+
+	<font color="GREEN"><b>{$msg}</b></font>
+	<br><br>
+{/if}
+
+<div>
+	<form action="/rota_classe_categoria_listagem" method="post">
+		<input type="text" id="pesquisa" name="pesquisa" placeholder="Pesquisar Por Categoria" value="{$pesquisa}">
+		<button type="submit">Pesquisar</button>
+	</form>
+</div>
+
+<br>
+
+<table border="3" width="650">
 <tr>
 	<th align="center">CODIGO</td>
-	<th width="15">&nbsp;</td>
 	<th align="center">CATEGORIA</td>
+	<th width="230" colspan="2" align="center">&nbsp;</td>
 </tr>
 
+{loop="$categorias"}
 <tr>
-	<td align="center">xxxxxx</td>
-	<td>&nbsp;</td>
-	<td align="left">xxxxxx</td>
+	<td align="center">{$value.id_categoria}</td>
+	<td align="left">{$value.categoria}</td>
+	<td align="center"><a href="/rota_classe_categoria_alterar/{$value.id_categoria}">ALTERAR</a></td>
+	<td align="center"><a href="/rota_classe_categoria_excluir/{$value.id_categoria}" onclick="return confirm('Deseja realmente excluir este registro?')" >EXCLUIR</a></td>
 </tr>
+{/loop}
 
 </table>
 

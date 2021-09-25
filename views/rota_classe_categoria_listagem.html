@@ -8,36 +8,49 @@
 
 <br>
 
-{if="$msg != ''"}
+{if="$msg_erro != ''"}
 
-	<font color="GREEN"><b>{$msg}</b></font>
+	<font color="RED"><b>{$msg_erro}</b></font>
+	<br><br>
+{/if}
+
+{if="$msg_sucesso != ''"}
+
+	<font color="GREEN"><b>{$msg_sucesso}</b></font>
 	<br><br>
 {/if}
 
 <div>
 	<form action="/rota_classe_categoria_listagem" method="post">
-		<input type="text" id="pesquisa" name="pesquisa" placeholder="Pesquisar Por Categoria" value="{$pesquisa}">
+		<input type="text" id="pesquisa" name="pesquisa" placeholder="Pesquisar..." value="{$pesquisa}">
 		<button type="submit">Pesquisar</button>
 	</form>
 </div>
 
 <br>
 
-<table border="3" width="650">
-<tr>
-	<th align="center">CODIGO</td>
-	<th align="center">CATEGORIA</td>
-	<th width="230" colspan="2" align="center">&nbsp;</td>
-</tr>
+{if="$categorias != NULL"}
 
-{loop="$categorias"}
-<tr>
-	<td align="center">{$value.id_categoria}</td>
-	<td align="left">{$value.categoria}</td>
-	<td align="center"><a href="/rota_classe_categoria_alterar/{$value.id_categoria}">ALTERAR</a></td>
-	<td align="center"><a href="/rota_classe_categoria_excluir/{$value.id_categoria}" onclick="return confirm('Deseja realmente excluir este registro?')" >EXCLUIR</a></td>
-</tr>
-{/loop}
+	<table border="3" width="950">
+	<tr>
+		<th align="center">CODIGO</td>
+		<th align="center">CATEGORIA</td>
+		<th align="center">DESCRICAO</td>
+		<th width="230" colspan="3" align="center">&nbsp;</td>
+	</tr>
 
-</table>
+	{loop="$categorias"}
+		<tr>
+			<td align="center">{$value.id_categoria}</td>
+			<td align="left">{$value.categoria}</td>
+			<td align="left">{$value.descricao}</td>
+			<td align="center"><a href="/rota_classe_categoria_detalhe/{$value.id_categoria}">DETALHE</a></td>
+			<td align="center"><a href="/rota_classe_categoria_alterar/{$value.id_categoria}">ALTERAR</a></td>
+			<td align="center"><a href="/rota_classe_categoria_excluir/{$value.id_categoria}" onclick="return confirm('Deseja realmente excluir este registro?')" >EXCLUIR</a></td>
+		</tr>
+	{/loop}
+
+	</table>
+
+{/if}
 

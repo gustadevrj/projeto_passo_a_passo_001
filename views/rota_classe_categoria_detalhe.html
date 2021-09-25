@@ -1,0 +1,44 @@
+
+
+<b>ROTA CLASSE CATEGORIA - CRUD - DETALHE</b><br><br>
+
+<div>
+<a href="/rota_classe_categoria_inserir"><b>INCLUIR NOVA CATEGORIA</b></a>
+</div>
+
+<br>
+
+{if="$msg_erro != ''"}
+
+	<font color="RED"><b>{$msg_erro}</b></font>
+	<br><br>
+{/if}
+
+{if="$msg_sucesso != ''"}
+
+	<font color="GREEN"><b>{$msg_sucesso}</b></font>
+	<br><br>
+{/if}
+
+<div>
+	<form action="/rota_classe_categoria_listagem" method="post">
+		<input type="text" id="pesquisa" name="pesquisa" placeholder="Pesquisar Por Categoria" value="{$pesquisa}">
+		<button type="submit">Pesquisar</button>
+	</form>
+</div>
+
+<hr>
+
+<p><b>>>>CATEGORIA {function="formata_nome($categoria.categoria)"}</b></p>
+
+<div>
+	<p><b>CODIGO:</b> {$categoria.id_categoria}</p>
+	<p><b>CATEGORIA:</b> {$categoria.categoria}</p>
+	<p><b>DESCRICAO:</b> {$categoria.descricao}</p>
+</div>
+
+
+<button type="button" onclick="window.location='/rota_classe_categoria_listagem';">Voltar</button>
+
+</table>
+

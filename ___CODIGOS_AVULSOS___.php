@@ -435,50 +435,12 @@ class PageAdmin extends Page{
 
 	}
 
-	public function getFromSessionID(){
-
-		$sql = new Sql();
-
-		$result = $sql->select("SELECT * FROM tb_carts WHERE dessessionid = :dessessionid;", array(
-				":dessessionid" => session_id()
-		));
-
-		if(count($result) > 0){
-			$this->setData($result[0]);
-		}
-
-	}
-
-	public function get(int $idcart){
-
-		$sql = new Sql();
-
-		$result = $sql->select("SELECT * FROM tb_carts WHERE idcart = :idcart;", array(
-				":idcart" => $idcart
-		));
-
-		if(count($result) > 0){
-			$this->setData($result[0]);
-		}
-
-	}
-
 	//
 	public function getValues(){
 
 		$this->getCalculateTotal();
 
 		return parent::getValues();
-
-	}
-
-
-//******************************
-	public static function listAll(){
-
-		$sql = new Sql();
-
-		return $sql->select("SELECT * FROM tb_categories ORDER BY descategory;");
 
 	}
 
@@ -513,18 +475,6 @@ class PageAdmin extends Page{
 
 	}
 
-	public function delete(){
-
-		$sql = new Sql();
-
-		$sql->query("
-			DELETE FROM tb_orders WHERE idorder = :idorder;
-			", array(
-				":idorder"=>$this->getidorder()
-			));
-
-	}
-
 	public function getCart():Cart{
 
 		$cart = new Cart();
@@ -534,51 +484,6 @@ class PageAdmin extends Page{
 		return $cart;
 
 	}
-
-	public static function setMsgError($msg){
-
-		$_SESSION[Order::ERROR] = $msg;
-
-	}
-
-	public static function getMsgError(){
-
-		$msg = (isset($_SESSION[Order::ERROR]) && $_SESSION[Order::ERROR]) ? $_SESSION[Order::ERROR] : '';
-
-		Order::clearMsgError();
-
-		return $msg;
-
-	}
-
-	public static function clearMsgError(){
-
-		$_SESSION[Order::ERROR] = NULL;
-
-	}
-
-	public static function setMsgSuccess($msg){
-
-		$_SESSION[Order::SUCCESS] = $msg;
-
-	}
-
-	public static function getMsgSuccess(){
-
-		$msg = (isset($_SESSION[Order::SUCCESS]) && $_SESSION[Order::SUCCESS]) ? $_SESSION[Order::SUCCESS] : '';
-
-		Order::clearMsgSuccess();
-
-		return $msg;
-
-	}
-
-	public static function clearMsgSuccess(){
-
-		$_SESSION[Order::SUCCESS] = NULL;
-
-	}
-
 
 //******************************
 	public static function checkList($list){
@@ -605,24 +510,6 @@ class PageAdmin extends Page{
 
 	}
 
-	//
-	public function getCategories(){
-
-		$sql = new Sql();
-
-		return $sql->select("
-				SELECT * FROM 
-				tb_categories a INNER JOIN tb_productscategories b 
-				ON a.idcategory = b.idcategory 
-				WHERE
-				b.idproduct = :idproduct;", 
-			array(
-				":idproduct" => $this->getidproduct()
-			)
-		);
-
-	}
-
 
 //******************************
 	const SESSION = "User";
@@ -646,14 +533,6 @@ class PageAdmin extends Page{
 		}
 
 		return $user;
-
-	}
-
-	public static function listAll(){
-
-		$sql = new Sql();
-
-		return $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.desperson;");
 
 	}
 
@@ -721,72 +600,6 @@ class PageAdmin extends Page{
 
 
 //******************************
-{loop="$products"}
-	<div class="single-product">
-		<div class="product-f-image">
-			<img src="{$value.desphoto}" alt="">
-			<div class="product-hover">
-				<a href="/cart/{$value.idproduct}/add" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Adicionar ao Carrinho</a>
-				<a href="/products/{$value.desurl}" class="view-details-link"><i class="fa fa-link"></i> Ver Detalhes</a>
-			</div>
-		</div>
-
-		<h2><a href="/product/{$value.desurl}">{$value.desproduct}</a></h2>
-
-		<div class="product-carousel-price">
-			<ins>R$ {function="formatPrice($value.vlprice)"}</ins> <!--<del>$100.00</del>-->
-		</div> 
-	</div>
-{/loop}
-
-
-//******************************
-<input name="shippingAddressPostalCode" type="hidden" value="{$order.deszipcode}">
-<input name="shippingAddressStreet" type="hidden" value="{function="utf8_encode($order.desaddress)"}">
-<input name="shippingAddressCity" type="hidden" value="{function="utf8_encode($order.descity)"}">
-<input name="shippingAddressState" type="hidden" value="{function="utf8_encode($order.desstate)"}">
-<input name="shippingAddressCountry" type="hidden" value="{function="utf8_encode($order.descountry)"}">
-
-
-//******************************
-<div class="product-big-title-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="product-bit-title text-center">
-                    <h2>{$product.desproduct}</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-//******************************
-<form method="post" action="/profile">
-	<div class="form-group">
-	<label for="desperson">Nome completo</label>
-	<input type="text" class="form-control" id="desperson" name="desperson" placeholder="Digite o nome aqui" value="{$user.desperson}">
-	</div>
-	<div class="form-group">
-	<label for="desemail">E-mail</label>
-	<input type="email" class="form-control" id="desemail" name="desemail" placeholder="Digite o e-mail aqui" value="{$user.desemail}">
-	</div>
-	<div class="form-group">
-	<label for="nrphone">Telefone</label>
-	<input type="tel" class="form-control" id="nrphone" name="nrphone" placeholder="Digite o telefone aqui" value="{$user.nrphone}">
-	</div>
-	<button type="submit" class="btn btn-primary">Salvar</button>
-</form>
-
-
-//******************************
-<div class="col-md-3">
-	{include="profile-menu"}
-</div>
-
-
-//******************************
 {if="$changePassError != ''"}
 	<div class="alert alert-danger">
 		{$changePassError}
@@ -798,26 +611,6 @@ class PageAdmin extends Page{
 		{$changePassSuccess}
 	</div>
 {/if}
-
-
-//******************************
-{loop="$products"}
-	<tr class="cart_item">
-		<td class="product-name">
-			{$value.desproduct} <strong class="product-quantity">× {$value.nrqtd}</strong> 
-		</td>
-		<td class="product-total">
-			<span class="amount">R$ {function="formatPrice($value.vltotal)"}</span>
-		</td>
-	</tr>
-{/loop}
-
-
-//******************************
-<tr class="order-total">
-	<th>Total do Pedido</th>
-	<td><strong><span class="amount">R$ {function="formatPrice($cart.vltotal)"}</span></strong> </td>
-</tr>
 
 
 //****************************************************************************************************************************************************************************************

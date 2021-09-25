@@ -2,7 +2,7 @@
 
 function formata_nome($texto){
 
-	$texto = strtoupper($texto);
+	$texto = strtoupper(trim($texto));
 
 	return $texto;
 

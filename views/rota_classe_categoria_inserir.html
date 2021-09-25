@@ -4,9 +4,15 @@
 
 <br>
 
-{if="$msg != ''"}
+{if="$msg_erro != ''"}
 
-	<font color="RED"><b>{$msg}</b></font>
+	<font color="RED"><b>{$msg_erro}</b></font>
+	<br><br>
+{/if}
+
+{if="$msg_sucesso != ''"}
+
+	<font color="GREEN"><b>{$msg_sucesso}</b></font>
 	<br><br>
 {/if}
 
@@ -14,10 +20,13 @@
 
 <form action="/rota_classe_categoria_inserir" method="post">
 
-	<label for="txt_categoria">Categoria:</label>
-	<input type="text" id="txt_categoria" name="txt_categoria" placeholder="Insira a Categoria">
+	<label for="categoria">Categoria:</label>
+	<input type="text" id="categoria" name="categoria" placeholder="Insira a Categoria" value="{$categoria}">
 
-	<input type="submit" value="Inserir">
+	<label for="descricao">Descricao:</label>
+	<input type="text" id="descricao" name="descricao" placeholder="Insira a Descricao" value="{$descricao}">
+
+	<input type="submit" value="Inserir">&nbsp;<button type="button" onclick="window.location='/rota_classe_categoria_listagem';">Cancelar</button>
 
 </form>
 

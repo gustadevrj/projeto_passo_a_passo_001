@@ -23,24 +23,18 @@ class Model{
 			case 'set':
 				$this->values[$fieldName] = $args[0];
 				break;
-
 		}
-
 	}
 
 	public function setData($dados = array()){
-
 		foreach ($dados as $key => $value) {
 			$this->{"set" . $key}($value);
 		}
-
 	}
 
 	public function getValues(){
-
 		return $this->values;
-
 	}
-} 
+}
 
 ?>

@@ -1,9 +1,6 @@
 
 
 
---DROP TABLE tb_categorias;
-
-
 /* DATABASE projeto_teste_001 */
 --DROP DATABASE projeto_teste_001;
 
@@ -12,6 +9,7 @@ CREATE DATABASE projeto_teste_001;
 
 
 /* TABELA CATEGORIAS - tb_categorias */
+--DROP TABLE IF EXISTS `tb_categorias`;
 CREATE TABLE tb_categorias( 
 	id_categoria INT NOT NUL-L PRIMARY KEY AUTO_INCREMENT, 
 	categoria VARCHAR(50) NOT NULL, 

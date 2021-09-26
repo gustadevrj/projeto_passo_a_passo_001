@@ -23,7 +23,7 @@
 <div>
 	<form action="/rota_classe_categoria_listagem" method="post">
 		<input type="text" id="pesquisa" name="pesquisa" placeholder="Pesquisar..." value="{$pesquisa}">
-		<button type="submit">Pesquisar</button>
+		<button type="submit">Pesquisar</button>{if="$pesquisa != ''"}&nbsp;<button type="button" onclick="window.location='/rota_classe_categoria_listagem';">Voltar</button>{/if}
 	</form>
 </div>
 

@@ -7,6 +7,8 @@ use Vendor\DB\Sql;
 
 class Categoria extends Model{
 
+	const SESSION = "Categoria";
+
 	const ERRO = "Categoria_ERRO";
 	const SUCESSO = "Categoria_SUCESSO";
 
@@ -30,7 +32,6 @@ class Categoria extends Model{
 		}
 		else{
 
-			//$_SESSION["msg"] = "Nenhum Registro Encontrado!";
 			Categoria::setMsgErro("Nenhum Registro Encontrado!");
 
 			return NULL;
@@ -42,34 +43,54 @@ class Categoria extends Model{
 
 		$sql = new Sql();
 
-		$rows = $sql->select("
-				SELECT 
-				c.id_categoria, 
-				c.categoria, 
-				c.descricao 
-				FROM 
-				tb_categorias c 
-				WHERE 
-				(
-				c.categoria LIKE :categoria 
-				OR c.descricao LIKE :categoria
-				) 
-				ORDER BY 
-				c.categoria ASC;
-			", array(
-				":categoria" => "%" . $categoria . "%" 
-		));
+		if ($categoria != ""){
+			$rows = $sql->select("
+					SELECT 
+					c.id_categoria, 
+					c.categoria, 
+					c.descricao 
+					FROM 
+					tb_categorias c 
+					WHERE 
+					(
+					c.categoria LIKE :categoria 
+					OR c.descricao LIKE :categoria
+					) 
+					ORDER BY 
+					c.categoria ASC;
+				", array(
+					":categoria" => "%" . $categoria . "%" 
+			));
+		}
+		else{
+			$rows = $sql->select("
+					SELECT 
+					c.id_categoria, 
+					c.categoria, 
+					c.descricao 
+					FROM 
+					tb_categorias c 
+					WHERE 
+					(
+					c.categoria LIKE :categoria 
+					OR c.descricao LIKE :categoria
+					);
+				", array(
+					":categoria" => "%" . $categoria . "%" 
+			));
+		}
 
 		if(count($rows) > 0){
 
-			Categoria::setMsgSucesso("Pesquisa Por: " . $categoria);
+			if ($categoria != ""){
+				Categoria::setMsgSucesso("Pesquisa Por: " . $categoria);
+			}
 
 			return $rows;
 
 		}
 		else{
 
-			//$_SESSION["msg"] = "Nenhum Registro Encontrado!";
 			Categoria::setMsgErro("Nenhum Registro Encontrado!");
 
 			return NULL;
@@ -106,7 +127,6 @@ class Categoria extends Model{
 		}
 		else{
 
-			//$_SESSION["msg"] = "Nenhum Registro Encontrado!";
 			Categoria::setMsgErro("Nenhum Registro Encontrado!");
 
 			return NULL;
@@ -114,7 +134,7 @@ class Categoria extends Model{
 
 	}
 
-	public static function verificaSeExiste(string $categoria, int $id_categoria = NULL){
+	public static function verificaSeExiste(string $categoria, int $id_categoria = NULL):int{
 
 		$sql = new Sql();
 
@@ -173,8 +193,8 @@ class Categoria extends Model{
 		//
 		if(($this->getcategoria() == NULL) || ($this->getcategoria() == "") || ($this->getdescricao() == NULL) || ($this->getdescricao() == "")){
 
-			//$_SESSION["categoria"] = $this->getcategoria();
-			//$_SESSION["descricao"] = $this->getdescricao();
+			$_SESSION["categoria"] = $this->getcategoria();
+			$_SESSION["descricao"] = $this->getdescricao();
 
 			//
 			Categoria::setMsgErro("Preencha os Campos do Formulario!");
@@ -191,7 +211,6 @@ class Categoria extends Model{
 			//$_SESSION["categoria"] = $this->getcategoria();
 			//$_SESSION["descricao"] = $this->getdescricao();
 
-			//$_SESSION["msg"] = "A Categoria " . ucwords(trim($this->getcategoria())) . " ja Existe!";
 			Categoria::setMsgErro("A Categoria " . ucwords(trim($this->getcategoria())) . " ja Existe!");
 
 			return;
@@ -213,7 +232,6 @@ class Categoria extends Model{
 			":descricao"=>ucwords(trim($this->getdescricao())) 
 		));
 
-		//$_SESSION["msg"] = "Categoria Criada com Sucesso!";
 		Categoria::setMsgSucesso("Categoria Criada com Sucesso!");
 
 	}
@@ -242,7 +260,6 @@ class Categoria extends Model{
 
 		if($resultado != 0){
 
-			//$_SESSION[Categoria::ERRO] = "A Categoria " . ucwords(trim($this->getcategoria())) . " ja Existe!";
 			Categoria::setMsgErro("A Categoria " . ucwords(trim($this->getcategoria())) . " ja Existe!");
 
 			return;
@@ -263,7 +280,6 @@ class Categoria extends Model{
 			":descricao"=>ucwords(trim($this->getdescricao())) 
 		));
 
-		//$_SESSION[Categoria::SUCESSO] = "Categoria Alterada com Sucesso!";
 		Categoria::setMsgSucesso("Categoria Alterada com Sucesso!");
 
 	}
@@ -282,12 +298,11 @@ class Categoria extends Model{
 			":id_categoria"=>(int)$id_categoria 
 		));
 
-		//$_SESSION["msg"] = "Categoria Excluida com Sucesso!";
 		Categoria::setMsgSucesso("Categoria Excluida com Sucesso!");
 
 	}
 
-	public static function retornaDados(int $id_categoria){
+	public static function retornaDados(int $id_categoria):Categoria{
 
 		$categoria = Categoria::pegaCategoriaPorID($id_categoria);
 
@@ -296,13 +311,20 @@ class Categoria extends Model{
 	}
 
 	//
-	public static function setMsgErro($msg){
+	public function setToSession(){
 
-		$_SESSION[Categoria::ERRO] = $msg . " - VIA FUNCTION ! ! !";
+		$_SESSION[Categoria::SESSION] = $this->getValues();
 
 	}
 
-	public static function getMsgErro(){
+	//
+	public static function setMsgErro(string $msg){
+
+		$_SESSION[Categoria::ERRO] = $msg;
+
+	}
+
+	public static function getMsgErro():string{
 
 		$msg = (isset($_SESSION[Categoria::ERRO]) && $_SESSION[Categoria::ERRO]) ? $_SESSION[Categoria::ERRO] : "";
 
@@ -319,13 +341,13 @@ class Categoria extends Model{
 	}
 
 	//
-	public static function setMsgSucesso($msg){
+	public static function setMsgSucesso(string $msg){
 
-		$_SESSION[Categoria::SUCESSO] = $msg . " - VIA FUNCTION ! ! !";
+		$_SESSION[Categoria::SUCESSO] = $msg;
 
 	}
 
-	public static function getMsgSucesso(){
+	public static function getMsgSucesso():string{
 
 		$msg = (isset($_SESSION[Categoria::SUCESSO]) && $_SESSION[Categoria::SUCESSO]) ? $_SESSION[Categoria::SUCESSO] : "";
 
@@ -341,7 +363,8 @@ class Categoria extends Model{
 
 	}
 
-
 }
 
 ?>
+
+

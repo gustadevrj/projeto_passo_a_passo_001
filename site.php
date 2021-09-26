@@ -170,8 +170,6 @@ $app->get("/rota_classe_categoria_listagem", function(){
 	echo("<br><b>>>>ROTA CLASSE CATEGORIA - CRUD - LISTAGEM</b><br><hr>");
 
 	//
-
-	//
 	$categorias = Categoria::listAll();
 
 	$page = new Page();
@@ -193,13 +191,15 @@ $app->post("/rota_classe_categoria_listagem", function(){
 	echo("<br><b>>>>ROTA CLASSE CATEGORIA - CRUD - LISTAGEM - PESQUISA</b><br><hr>");
 
 	//
-
 	$pesquisa = (isset($_POST["pesquisa"])) ? $_POST["pesquisa"] : "";
 
 	//
 	$categorias = Categoria::pesquisar((string)$pesquisa);
 
-	$page = new Page();
+	$page = new Page([
+		"header"=>false, 
+		"footer"=>false
+	]);
 
 	$page->setTpl("rota_classe_categoria_listagem", array(
 		"pesquisa"=>$pesquisa, 
@@ -221,15 +221,21 @@ $app->get("/rota_classe_categoria_inserir", function(){
 	$categoria = "";
 	$descricao = "";
 
-	if((($_SESSION["categoria"] != "") || ($_SESSION["categoria"] != NULL)) || (($_SESSION["descricao"] != "") || ($_SESSION["descricao"] != NULL))){
-		$categoria = $_SESSION["categoria"];
-		$descricao = $_SESSION["descricao"];
+	//
+	if(isset($_SESSION["categoria"]) && isset($_SESSION["descricao"])){
+		if((($_SESSION["categoria"] != "") || ($_SESSION["categoria"] != NULL)) || (($_SESSION["descricao"] != "") || ($_SESSION["descricao"] != NULL))){
+			$categoria = $_SESSION["categoria"];
+			$descricao = $_SESSION["descricao"];
 
-		$_SESSION["categoria"] = NULL;
-		$_SESSION["descricao"] = NULL;
+			$_SESSION["categoria"] = NULL;
+			$_SESSION["descricao"] = NULL;
+		}
 	}
 
-	$page = new Page();
+	$page = new Page([
+		"header"=>false, 
+		"footer"=>false
+	]);
 
 	$page->setTpl("rota_classe_categoria_inserir", array(
 		"msg_erro"=>Categoria::getMsgErro(), 
@@ -246,6 +252,9 @@ $app->get("/rota_classe_categoria_inserir", function(){
 $app->post("/rota_classe_categoria_inserir", function(){
 
 	echo("<br><b>>>>ROTA CLASSE CATEGORIA - CRUD - INSERIR</b><br><hr>");
+
+	//
+	//var_dump($_POST);
 
 	//
 	$categoria = new Categoria();
@@ -274,33 +283,27 @@ $app->get("/rota_classe_categoria_alterar/:id_categoria", function($id_categoria
 
 	echo("<br><b>>>>ROTA CLASSE CATEGORIA - CRUD - ALTERAR</b><br><hr>");
 
-	/*********************************$msg_sucesso = NULL;
-
-	if (!isset($_SESSION[Categoria::ERRO]) || !$_SESSION[Categoria::ERRO] === '' || !$_SESSION[Categoria::ERRO] === NULL){
-		$msg_erro = NULL;
-	}
-	else{
-		$msg_erro = $_SESSION[Categoria::ERRO];
-		$_SESSION[Categoria::ERRO] = NULL;
-	}*/
-
 	//
 	$categoria = "";
 	$descricao = "";
 
-	if((($_SESSION["categoria"] != "") || ($_SESSION["categoria"] != NULL)) || (($_SESSION["descricao"] != "") || ($_SESSION["descricao"] != NULL))){
-		$categoria = $_SESSION["categoria"];
-		$descricao = $_SESSION["descricao"];
+	if(isset($_SESSION["categoria"]) && isset($_SESSION["descricao"])){
+		if((($_SESSION["categoria"] != "") || ($_SESSION["categoria"] != NULL)) || (($_SESSION["descricao"] != "") || ($_SESSION["descricao"] != NULL))){
+			$categoria = $_SESSION["categoria"];
+			$descricao = $_SESSION["descricao"];
 
-		$_SESSION["categoria"] = NULL;
-		$_SESSION["descricao"] = NULL;
+			$_SESSION["categoria"] = NULL;
+			$_SESSION["descricao"] = NULL;
+		}
 	}
 
 	//
-
 	$categoria = Categoria::pegaCategoriaPorID((int)$id_categoria);
 
-	$page = new Page();
+	$page = new Page([
+		"header"=>false, 
+		"footer"=>false
+	]);
 
 	$page->setTpl("rota_classe_categoria_alterar", array( 
 		"categoria"=>$categoria->getValues(), 
@@ -318,19 +321,6 @@ $app->post("/rota_classe_categoria_alterar/:id_categoria", function($id_categori
 	echo("<br><b>>>>ROTA CLASSE CATEGORIA - CRUD - ALTERAR</b><br><hr>");
 
 	//
-
-	/*************************************if (!isset($_POST['categoria']) || $_POST['categoria'] === ''){
-		$_SESSION["msg"] = "A Categoria Nao Pode ser Vazia!";
-		header("Location: /rota_classe_categoria_alterar/$id_categoria");
-		exit;
-	}
-
-	if (!isset($_POST['descricao']) || $_POST['descricao'] === ''){
-		$_SESSION["msg"] = "A Descricao Nao Pode ser Vazia!";
-		header("Location: /rota_classe_categoria_alterar/$id_categoria");
-		exit;
-	}*/
-
 	$categoria = Categoria::pegaCategoriaPorID((int)$id_categoria);
 
 	$categoria->setData($_POST);
@@ -350,14 +340,6 @@ $app->post("/rota_classe_categoria_alterar/:id_categoria", function($id_categori
 		exit;
 	}
 
-
-	/********************************************if (isset($_SESSION[Categoria::ERRO]) || $_SESSION[Categoria::ERRO] != ''){
-		header("Location: /rota_classe_categoria_alterar/$id_categoria");
-		exit;
-	}*/
-
-	//$_SESSION["msg"] = "Categoria Alterada com Sucesso!";
-
 	header("Location: /rota_classe_categoria_listagem");
 
 	exit;
@@ -370,10 +352,7 @@ $app->get("/rota_classe_categoria_excluir/:id_categoria", function($id_categoria
 	echo("<br><b>>>>ROTA CLASSE CATEGORIA - CRUD - EXCLUIR</b><br><hr>");
 
 	//
-
 	$categoria = Categoria::excluir((int)$id_categoria);
-
-	//$_SESSION["msg"] = "Categoria Excluida com Sucesso!";
 
 	header("Location: /rota_classe_categoria_listagem");
 
@@ -387,15 +366,18 @@ $app->get("/rota_classe_categoria_detalhe/:id_categoria", function($id_categoria
 	echo("<br><b>>>>ROTA CLASSE CATEGORIA - CRUD - DETALHE</b><br><hr>");
 
 	//
-
 	$categoria = Categoria::retornaDados((int)$id_categoria);
 
-	$page = new Page();
+	$page = new Page([
+		"header"=>false, 
+		"footer"=>false
+	]);
 
 	$page->setTpl("rota_classe_categoria_detalhe", array(
 		"categoria"=>$categoria->getValues(), 
 		"pesquisa"=>"", 
-		"msg"=>"" 
+		"msg_erro"=>Categoria::getMsgErro(), 
+		"msg_sucesso"=>Categoria::getMsgSucesso() 
 	));
 
 	exit;
